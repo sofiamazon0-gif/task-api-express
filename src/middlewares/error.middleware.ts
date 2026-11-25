@@ -1,16 +1,76 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { AppError } from '../errors/app-error.js';
+import type { ApiErrorPayload } from '../types/api-error.js';
 
+// Identifica los errores de sintaxis JSON producidos al leer una peticion.
+const isInvalidJson = (error: unknown): boolean => {
+  if (!(error instanceof SyntaxError)) return false;
+  return 'status' in error
+    && typeof error.status === 'number'
+    && error.status === 400;
+};
+
+const isPayloadTooLarge = (error: unknown): boolean =>
+  typeof error === 'object'
+  && error !== null
+  && 'type' in error
+  && error.type === 'entity.too.large';
+
+// Envia el error con el formato comun de respuestas de la API.
+const sendError = (
+  res: Response,
+  status: number,
+  payload: ApiErrorPayload
+): void => {
+  res.status(status).json({ error: payload });
+};
+
+// Convierte errores conocidos e inesperados en respuestas HTTP consistentes.
 export const errorHandler = (
   error: unknown,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  next: NextFunction
 ): void => {
-  if (error instanceof AppError) {
-    res.status(error.statusCode).json({ error: error.message });
+  if (res.headersSent) {
+    next(error);
     return;
   }
-  console.error(error);
-  res.status(500).json({ error: 'Error interno del servidor.' });
+
+  const requestId: string | undefined = res.locals.requestId;
+
+  if (error instanceof AppError) {
+    sendError(res, error.statusCode, {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      requestId
+    });
+    return;
+  }
+
+  if (isInvalidJson(error)) {
+    sendError(res, 400, {
+      code: 'INVALID_JSON',
+      message: 'El cuerpo contiene JSON inválido.',
+      requestId
+    });
+    return;
+  }
+
+  if (isPayloadTooLarge(error)) {
+    sendError(res, 413, {
+      code: 'PAYLOAD_TOO_LARGE',
+      message: 'El cuerpo de la solicitud supera el límite permitido.',
+      requestId
+    });
+    return;
+  }
+
+  console.error({ requestId, error });
+  sendError(res, 500, {
+    code: 'INTERNAL_ERROR',
+    message: 'Ocurrió un error interno.',
+    requestId
+  });
 };

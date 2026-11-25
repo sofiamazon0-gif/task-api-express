@@ -1,53 +1,44 @@
-import type { Request, Response, NextFunction } from 'express';
-import { listTasks, findTaskById, createTask, completeTask, deleteTask } from '../services/task.service.js';
-import { AppError } from '../errors/app-error.js';
+import type { Request, Response } from 'express';
+import {
+  completeTask,
+  createTask,
+  deleteTask,
+  findTaskById,
+  listTasks,
+  updateTask
+} from '../services/task.service.js';
 
-const parseId = (value: string | string[] | undefined): number => {
-  const normalizedValue = Array.isArray(value) ? value[0] : value;
-  const id = Number(normalizedValue);
-
-  if (!Number.isInteger(id) || id <= 0) {
-    throw new AppError('El id debe ser un entero positivo.', 400);
-  }
-
-  return id;
+export const getTasks = async (_req: Request, res: Response): Promise<void> => {
+  res.status(200).json(await listTasks(res.locals.taskQuery));
 };
 
-export const getTasks = (_req: Request, res: Response): void => {
-  res.status(200).json({ data: listTasks() });
+export const getTask = async (_req: Request, res: Response): Promise<void> => {
+  res.status(200).json({ data: await findTaskById(res.locals.taskId) });
 };
 
-export const getTask = (req: Request, res: Response, next: NextFunction): void => {
-  try {
-    res.status(200).json({ data: findTaskById(parseId(req.params.id)) });
-  } catch (error) {
-    next(error);
-  }
+export const postTask = async (_req: Request, res: Response): Promise<void> => {
+  const task = await createTask(
+    res.locals.taskTitle,
+    res.locals.taskDescription,
+    res.locals.taskPriority
+  );
+  res.status(201).json({ data: task });
 };
 
-export const postTask = (req: Request, res: Response, next: NextFunction): void => {
-  try {
-    const task = createTask(req.body.title);
-    res.status(201).json({ data: task });
-  } catch (error) {
-    next(error);
-  }
+export const patchTaskComplete = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
+  const task = await completeTask(res.locals.taskId);
+  res.status(200).json({ data: task });
 };
 
-export const patchTaskComplete = (req: Request, res: Response, next: NextFunction): void => {
-  try {
-    const task = completeTask(parseId(req.params.id));
-    res.status(200).json({ data: task });
-  } catch (error) {
-    next(error);
-  }
+export const patchTask = async (_req: Request, res: Response): Promise<void> => {
+  const task = await updateTask(res.locals.taskId, res.locals.taskUpdate);
+  res.status(200).json({ data: task });
 };
 
-export const removeTask = (req: Request, res: Response, next: NextFunction): void => {
-  try {
-    deleteTask(parseId(req.params.id));
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
+export const removeTask = async (_req: Request, res: Response): Promise<void> => {
+  await deleteTask(res.locals.taskId);
+  res.status(204).send();
 };
