@@ -1,11 +1,12 @@
 # Evidencias EC3 F3 A12
 
 ## Identificación
-- Nombre:
-- Grupo:
-- Repositorio:
-- Rama integrada en `main` mediante fast-forward
-- Commit de Render y etiqueta `v1.0.0`: el mismo HEAD final de `main`, confirmado Live antes de etiquetar
+- Nombre: e1
+- Grupo: backend
+- Repositorio: sofiamazon0-gif/task-api-express
+- Rama `ec3-a12-despliegue-liberacion` integrada en `main` mediante fast-forward
+- Commit de Render y etiqueta `v1.0.0`: `ba45907` (mismo SHA; deploy Live confirmado antes de etiquetar)
+- La identificación personal se añadió después del release en un commit documental; no modifica el código desplegado.
 - URL del frontend: https://task-api-express-sofiamazon0-client.onrender.com
 - URL pública de la API: https://task-api-express-sofiamazon0-api.onrender.com
 
