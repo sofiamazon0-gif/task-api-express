@@ -14,6 +14,16 @@ const listen = (port: number): Promise<Server> => new Promise((resolve, reject) 
   });
 });
 
+const describeStartupError = (error: unknown): string => {
+  if (!(error instanceof Error)) return 'Error de inicio desconocido.';
+
+  const message = error.message.replace(
+    /mongodb(?:\+srv)?:\/\/\S+/gi,
+    '[URI de MongoDB ocultada]'
+  );
+  return `${error.name}: ${message}`;
+};
+
 const startServer = async (): Promise<void> => {
   let databaseConnected = false;
 
@@ -42,7 +52,7 @@ const startServer = async (): Promise<void> => {
         try {
           await disconnectDatabase();
           console.log('Conexión con MongoDB cerrada.');
-        } catch {
+        } catch (error: unknown) {
           console.error('No fue posible cerrar correctamente la conexión con MongoDB.');
           process.exitCode = 1;
         }
@@ -51,7 +61,7 @@ const startServer = async (): Promise<void> => {
 
     process.once('SIGINT', () => shutdown('SIGINT'));
     process.once('SIGTERM', () => shutdown('SIGTERM'));
-  } catch {
+  } catch (error: unknown) {
     if (databaseConnected) {
       try {
         await disconnectDatabase();
@@ -64,6 +74,7 @@ const startServer = async (): Promise<void> => {
       'No fue posible iniciar la API. Revise MONGODB_URI, ' +
       'el usuario y la lista de acceso de red.'
     );
+    console.error(describeStartupError(error));
     process.exitCode = 1;
   }
 };
