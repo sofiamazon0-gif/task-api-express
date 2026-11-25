@@ -24,7 +24,9 @@ if (health?.data?.status !== 'up') throw new Error('/health no informó status u
 console.log(`✓ API ${health.data.version} en ambiente ${health.data.environment}`);
 
 const database = await requestJson('/health/database');
-if (database?.data?.status !== 'up') throw new Error('MongoDB no informó status up.');
+if (database?.data?.status !== 'connected') {
+  throw new Error('MongoDB no informó status connected.');
+}
 console.log('✓ MongoDB conectado');
 
 const login = await requestJson('/api/auth/login', {

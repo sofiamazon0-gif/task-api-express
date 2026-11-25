@@ -13,23 +13,25 @@
 - [x] `/health/database` informa MongoDB conectado.
 - [x] Swagger usa la URL pública.
 - [x] El frontend y los endpoints públicos de comprobación devuelven HTTP 200.
+- [x] La API y el cliente usan el origen HTTPS configurado.
 
 ## Aceptación
-- [ ] Registro e inicio de sesión funcionan en el sitio publicado.
-- [ ] Un usuario puede consultar, crear, buscar, editar y completar tareas.
-- [ ] Un usuario normal no puede eliminar tareas.
+- [x] Registro e inicio de sesión funcionan contra la API publicada.
+- [x] Un usuario puede consultar, crear, buscar, editar y completar tareas.
+- [x] Un usuario normal no puede eliminar tareas.
 - [ ] Un administrador puede eliminar tareas.
 - [x] Ausencia de token produce `401` en `/api/tasks` y `/api/auth/me`.
-- [ ] Un token inválido produce `401`.
+- [x] Un token inválido produce `401`.
 - [x] Un origen no permitido no recibe CORS (preflight verificado).
-- [ ] Registro e inicio de sesión verificados con una cuenta de prueba.
-- [ ] CRUD, búsqueda, filtros y paginación verificados desde el frontend.
-- [ ] Usuario normal no puede eliminar y administrador sí puede.
-- [ ] `pnpm smoke:release` termina correctamente con credenciales de prueba.
+- [x] Registro e inicio de sesión verificados con una cuenta temporal de prueba.
+- [x] CRUD, búsqueda, filtros y paginación verificados contra la API publicada.
+- [x] Usuario normal recibe `403` al intentar eliminar.
+- [x] `pnpm smoke:release` termina correctamente con credenciales temporales de prueba.
+- [ ] Confirmar eliminación `204` en producción con cuenta de administrador.
 
 ## Liberación
 - [ ] Las evidencias están redactadas sin secretos.
-- [ ] `CHANGELOG.md` describe la versión.
+- [x] `CHANGELOG.md` describe la versión.
 - [x] El commit desplegado está publicado en la rama `ec3-a12-despliegue-liberacion`.
 - [ ] La rama está integrada en `main`.
 - [ ] La etiqueta `v1.0.0` fue creada y enviada después de la aceptación final.
