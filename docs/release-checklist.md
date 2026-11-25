@@ -33,5 +33,5 @@
 - [x] Las evidencias están redactadas sin secretos.
 - [x] `CHANGELOG.md` describe la versión.
 - [x] El commit desplegado está publicado en la rama `ec3-a12-despliegue-liberacion`.
-- [ ] La rama está integrada en `main`.
-- [ ] La etiqueta `v1.0.0` fue creada y enviada después de la aceptación final.
+- [x] La rama está integrada en `main` mediante fast-forward.
+- [x] La etiqueta `v1.0.0` se crea sobre el mismo commit confirmado como Live en Render.

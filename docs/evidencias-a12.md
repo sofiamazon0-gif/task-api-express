@@ -4,9 +4,8 @@
 - Nombre:
 - Grupo:
 - Repositorio:
-- Último commit de la rama antes del cierre: `2aed035` (`ec3-a12-despliegue-liberacion`)
-- Commit de Render verificado antes del cierre: `e47e5df`; se desplegará el commit de cierre al terminar la integración
-- Etiqueta `v1.0.0`: pendiente; no crear hasta cerrar la aceptación
+- Rama integrada en `main` mediante fast-forward
+- Commit de Render y etiqueta `v1.0.0`: el mismo HEAD final de `main`, confirmado Live antes de etiquetar
 - URL del frontend: https://task-api-express-sofiamazon0-client.onrender.com
 - URL pública de la API: https://task-api-express-sofiamazon0-api.onrender.com
 
