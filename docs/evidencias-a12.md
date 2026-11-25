@@ -4,14 +4,17 @@
 - Nombre:
 - Grupo:
 - Repositorio:
-- Commit desplegado: `e47e5df` (rama `ec3-a12-despliegue-liberacion`)
-- Etiqueta: v1.0.0
+- Último commit de la rama antes del cierre: `2aed035` (`ec3-a12-despliegue-liberacion`)
+- Commit de Render verificado antes del cierre: `e47e5df`; se desplegará el commit de cierre al terminar la integración
+- Etiqueta `v1.0.0`: pendiente; no crear hasta cerrar la aceptación
 - URL del frontend: https://task-api-express-sofiamazon0-client.onrender.com
 - URL pública de la API: https://task-api-express-sofiamazon0-api.onrender.com
 
 ## Calidad local
 - Resultado de `pnpm install --frozen-lockfile`: aprobado
 - Resultado de `pnpm verify`: aprobado en entorno local
+- API local `/health` y `/health/database`: HTTP 200
+- Cliente Vite local: HTTP 200
 - Pruebas backend: aprobadas
 - Pruebas cliente: 3 aprobadas
 - Builds backend y cliente: aprobados
@@ -31,8 +34,10 @@
 - Crear, consultar, buscar, actualizar y completar una tarea: aprobado
 - Paginación y filtro por estado: aprobados
 - Eliminación con rol `user`: HTTP 403
-- `pnpm smoke:release`: aprobado con cuenta temporal de prueba
-- Se dejó una cuenta temporal y una tarea completada en Atlas; no se guardaron sus credenciales en el repositorio ni en esta evidencia
+- `pnpm smoke:release`: aprobado literalmente contra producción con cuenta temporal; la cuenta se eliminó de Atlas al terminar
+- Se identificaron dos cuentas temporales y dos tareas de smoke preexistentes en Atlas; permanecen sin cambios.
+- Eliminación con rol `admin`: HTTP 204 confirmado en producción
+- El rol de la cuenta temporal se restauró a `user`; la cuenta y la tarea creadas para esta comprobación se eliminaron y se verificó su ausencia
 
 ## Seguridad de la evidencia
 - [x] No se muestra MONGODB_URI.

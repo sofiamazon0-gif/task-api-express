@@ -3,7 +3,7 @@
 ## Calidad local
 - [x] `pnpm install --frozen-lockfile` termina correctamente.
 - [x] `pnpm verify` termina sin errores.
-- [ ] La API y el cliente funcionan en desarrollo.
+- [x] La API y el cliente funcionan en desarrollo; `/health` y el cliente Vite devuelven HTTP 200.
 
 ## Producción
 - [x] Los nombres de servicios en `render.yaml` fueron personalizados.
@@ -19,18 +19,18 @@
 - [x] Registro e inicio de sesión funcionan contra la API publicada.
 - [x] Un usuario puede consultar, crear, buscar, editar y completar tareas.
 - [x] Un usuario normal no puede eliminar tareas.
-- [ ] Un administrador puede eliminar tareas.
+- [x] Un administrador puede eliminar tareas.
 - [x] Ausencia de token produce `401` en `/api/tasks` y `/api/auth/me`.
 - [x] Un token inválido produce `401`.
 - [x] Un origen no permitido no recibe CORS (preflight verificado).
 - [x] Registro e inicio de sesión verificados con una cuenta temporal de prueba.
 - [x] CRUD, búsqueda, filtros y paginación verificados contra la API publicada.
 - [x] Usuario normal recibe `403` al intentar eliminar.
-- [x] `pnpm smoke:release` termina correctamente con credenciales temporales de prueba.
-- [ ] Confirmar eliminación `204` en producción con cuenta de administrador.
+- [x] `pnpm smoke:release` se ejecutó literalmente contra producción con credenciales temporales.
+- [x] Confirmar eliminación `204` en producción con cuenta temporal de administrador.
 
 ## Liberación
-- [ ] Las evidencias están redactadas sin secretos.
+- [x] Las evidencias están redactadas sin secretos.
 - [x] `CHANGELOG.md` describe la versión.
 - [x] El commit desplegado está publicado en la rama `ec3-a12-despliegue-liberacion`.
 - [ ] La rama está integrada en `main`.
