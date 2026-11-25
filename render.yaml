@@ -5,7 +5,7 @@ services:
     plan: free
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm start
-    healthCheckPath: /health/database
+    healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
         value: 24.21.0
